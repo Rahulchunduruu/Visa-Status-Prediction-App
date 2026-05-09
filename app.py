@@ -77,11 +77,10 @@ if st.button("🔍 Predict Visa Status", use_container_width=True):
                 prediction = result["message"]
                 category = prediction['predicted_category']
                 confidence = prediction["confidence"]
-                print
                 if category == "ACCEPTED":
-                    st.success(f"Visa Status: **{category}**")
+                    st.success(f"✅ Visa Status: **{category}**")
                 else:
-                    st.error(f"Visa Status: **{category}**")
+                    st.error(f"❌ Visa Status: **{category}**")
 
                 st.metric(label="Confidence Score", value=f"{round(confidence * 100, 2)}%")
 
