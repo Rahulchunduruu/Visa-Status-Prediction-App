@@ -9,11 +9,24 @@ st.set_page_config(page_title="Visa Status Predictor", page_icon="🛂", layout=
 def start_server():
     uvicorn.run("main:app", host="127.0.0.1", port=8000)
 
+def wait_for_server(url, retries=10, delay=1):
+    for _ in range(retries):
+        try:
+            requests.get(url)
+            return True
+        except:
+            time.sleep(delay)
+    return False
+
 if "server_started" not in st.session_state:
     t = threading.Thread(target=start_server, daemon=True)
     t.start()
-    time.sleep(1)  # wait for server to be ready
-    st.session_state["server_started"] = True
+    with st.spinner("Starting server, please wait..."):
+        ready = wait_for_server("http://127.0.0.1:8000")
+    if ready:
+        st.session_state["server_started"] = True
+    else:
+        st.error("❌ Server failed to start. Try restarting the app.")
 
 API_URL = 'http://127.0.0.1:8000/predict'
 
