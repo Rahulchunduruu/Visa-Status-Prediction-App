@@ -7,6 +7,8 @@ import time
 st.set_page_config(page_title="Visa Status Predictor", page_icon="🛂", layout="centered")
 
 def start_server():
+    import os
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     uvicorn.run("main:app", host="127.0.0.1", port=8000)
 
 def wait_for_server(url, retries=10, delay=1):
